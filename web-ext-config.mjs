@@ -3,6 +3,7 @@
 export default {
   ignoreFiles: [
     "README.md",
+    "docs",
     "web-ext-config.mjs",
     "web-ext-artifacts",
     "*.html.bak",

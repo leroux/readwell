@@ -1,8 +1,51 @@
 # Readwell
 
-A Firefox extension (Manifest V3) for color-gradient line guiding plus reading
-aids: spacing, fonts, a reading ruler, bionic-style bolding and tints. It also
-works when Dark Reader is turned on.
+A browser extension for experimenting with reading aids: color-gradient line
+guiding, dyslexia-friendly fonts, adjustable spacing, a reading ruler,
+bionic-style bolding and color tints. Mix them, compare presets, and find out
+what actually helps you read. It also works when Dark Reader is turned on, and
+inside iframe-based book readers.
+
+![The Readwell settings page: presets with evidence ratings, gradient controls, and a live preview](docs/options.png)
+
+## Why "experiment"?
+
+Readwell is built for trying things, not prescribing them. Every aid here has
+fans, but the evidence behind them varies a lot, and people differ more than
+the studies do. So every preset and setting on the options page carries an
+evidence label (**Good**, **Mixed**, **Little**, **No benefit found**), with the
+study behind it:
+
+- **Spacing and line length: good evidence.** Extra letter spacing sped up
+  reading for children with dyslexia (Zorzi et al. 2012; Masulli et al. 2018).
+  The **Research-backed** preset uses only these aids, with WCAG 1.4.12 spacing
+  values and a plain sans-serif font, which also reads well in studies
+  (Rello & Baeza-Yates 2013).
+- **Gradient line guiding: mixed.** The main independent study (Koornneef &
+  Kraal 2022) found it helped some beginning readers and slowed others down.
+- **Rulers, tints, edge cues: little evidence.** Not formally studied; some
+  readers find them more comfortable.
+- **OpenDyslexic and bionic-style bolding: no benefit found.** OpenDyslexic was
+  no faster or more accurate than Arial or Times (Wery & Diliberto 2017), and
+  bionic bolding showed no speed gain in controlled tests.
+
+None of this says what will work for *you*, so treat it as an experiment on
+yourself:
+
+1. **Change one thing at a time.** The live preview updates as you adjust
+   anything, and there's a dark box to check how it looks on dark sites.
+2. **Use the same kind of text.** Compare on articles you'd normally read, not
+   the easiest page you can find.
+3. **Give each setup a few days.** Anything new feels strange at first; what
+   matters is how it feels once the novelty wears off.
+4. **Notice comfort as well as speed.** Less eye strain or fewer lost lines is a
+   real result even if you don't read any faster.
+5. **Save what works** with **Save as my preset…**, and **Export** it to keep a
+   record or share it.
+
+**Everything On** turns on every aid at once, a quick way to see what each one
+does before you narrow it down. It's a bad way to judge them, though: with
+everything on, you can't tell which one is helping.
 
 - Extension ID: `lineglide@local` (registered on addons.mozilla.org, so **never change it**)
 - Minimum Firefox: 140 on desktop, 142 on Android
@@ -19,7 +62,7 @@ works when Dark Reader is turned on.
 | `background.js` | Per-tab on/off state and the keyboard shortcut (Alt+Shift+B). |
 | `popup.*`, `options.*` | Toolbar popup and full settings page. |
 | `web-ext-config.mjs` | Settings `web-ext` reads automatically: which files to leave out of builds, plus signing defaults. Not shipped. |
-| `README.md` | This file. Not shipped. |
+| `README.md`, `docs/` | This file and its screenshot. Not shipped. |
 
 Anything that isn't part of the extension (docs, test pages, saved web pages)
 must be left out of the package. Add it to `ignoreFiles` in `web-ext-config.mjs`,
