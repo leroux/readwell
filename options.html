@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Readwell Settings</title>
+  <style>
+    :root {
+      --bg: #f6f6f4; --card: #fff; --text: #1d1d1f; --muted: #6b6b70; --line: #e3e3e0;
+      --accent: #1450e6; --accent-soft: #e6edff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #17171a; --card: #222226; --text: #ececef; --muted: #9a9aa2; --line: #34343a;
+              --accent: #7aa7ff; --accent-soft: #24304d; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 system-ui, sans-serif; }
+    header { padding: 20px 24px 8px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+    h1 { margin: 0; font-size: 22px; }
+    h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
+    button, .btn { font: inherit; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--text); cursor: pointer; }
+    button:hover, .btn:hover { border-color: var(--accent); }
+    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .wrap { padding: 8px 24px 40px; }
+    .presets { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin-bottom: 8px; }
+    .preset { text-align: left; padding: 10px 12px; border-radius: 10px; }
+    .preset b { display: block; margin-bottom: 2px; }
+    .preset span { color: var(--muted); font-size: 12px; }
+    .preset.active { border-color: var(--accent); background: var(--accent-soft); }
+    .preset .ev { display: table; margin-top: 6px; font-style: normal; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 99px; }
+    .ev-good { background: #dcf3e3; color: #135c2c; }
+    .ev-mixed { background: #fdf0cf; color: #6b4a00; }
+    .ev-little { background: #eceae6; color: #4a4741; }
+    .ev-none { background: #f8dcdc; color: #7a1d1d; }
+    .preset .del { float: right; color: var(--muted); padding: 0 4px; }
+    .status { color: var(--muted); font-size: 13px; margin: 6px 0 18px; }
+    .grid { display: grid; grid-template-columns: minmax(300px, 440px) 1fr; gap: 20px; align-items: start; }
+    @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .preview-col { position: static !important; } }
+    section.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
+    .row { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; padding: 7px 0; border-top: 1px solid var(--line); }
+    .row:first-of-type { border-top: 0; }
+    .row label { font-weight: 500; }
+    .row .val { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 56px; text-align: right; }
+    .row input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); }
+    .row select { max-width: 230px; font: inherit; padding: 3px; border-radius: 6px; }
+    .row input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--accent); }
+    .note { grid-column: 1 / -1; color: var(--muted); font-size: 12px; margin-top: -2px; }
+    .hidden { display: none !important; }
+    .preview-col { position: sticky; top: 12px; }
+    .preview-tools { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; color: var(--muted); font-size: 13px; }
+    #preview { background: #fff; color: #1b1b1b; border: 1px solid var(--line); border-radius: 12px; padding: 22px 26px;
+               font: 18px/1.55 Georgia, serif; max-height: calc(100vh - 80px); overflow: auto; margin: 0 auto; }
+    #preview h3 { margin-top: 0; font-size: 22px; }
+    #preview .darkbox { background: #151518; color: #ddd; padding: 14px 18px; border-radius: 8px; }
+    #preview a { color: #1a0dab; }
+    .sites { list-style: none; padding: 0; margin: 6px 0 0; }
+    .sites li { display: flex; justify-content: space-between; padding: 4px 0; border-top: 1px solid var(--line); }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Readwell</h1>
+    <div class="toolbar">
+      <button id="savePreset" class="primary">Save as my preset…</button>
+      <button id="export">Export</button>
+      <label class="btn">Import<input type="file" id="import" accept="application/json" hidden></label>
+      <button id="reset">Reset to defaults</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <h2>Presets</h2>
+    <div class="presets" id="presets"></div>
+    <div class="status" id="status"></div>
+
+    <div class="grid">
+      <div id="controls"></div>
+
+      <div class="preview-col">
+        <div class="preview-tools">
+          <span>Live preview (move your mouse over it to try the ruler)</span>
+          <label>Width <input type="range" id="pvWidth" min="320" max="1000" value="680"></label>
+        </div>
+        <div id="preview">
+          <h3>Try your settings here</h3>
+          <p>Reading on screens is harder than reading on paper. When you reach the end of one line, your eye has to jump back to the start of the next one, and it often lands on the wrong line. Color gradients fix this: every line ends in the color the next one starts with, so your eye follows it down the page.</p>
+          <p>This paragraph has a <a href="#">link with <em>emphasis</em></a> and some <strong>bold text</strong> mixed in. Change the theme, pattern, or intensity on the left and watch each line update. Drag the width slider above to see the gradient follow the new line breaks.</p>
+          <ul>
+            <li>List items get their own pattern, so a long item that wraps onto two or three lines still gets the full effect when you read it.</li>
+          </ul>
+          <div class="darkbox">
+            <p>This dark box shows how your settings look on dark-mode websites. The Auto theme notices the light text and switches to lighter accent colors so the words stay readable.</p>
+          </div>
+          <p>Spacing, font, and line-length settings come from reading research. Extra letter and word spacing helped many readers with dyslexia in controlled studies, and shorter lines of about fifty to seventy-five characters are easier to track. Mix and match, then save what works as your own preset.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="engine.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

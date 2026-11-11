@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    :root { --bg: #fff; --text: #1d1d1f; --muted: #777; --line: #e5e5e5; --accent: #1450e6; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #232327; --text: #eee; --muted: #999; --line: #3a3a40; --accent: #7aa7ff; } }
+    body { font: 13px system-ui, sans-serif; width: 270px; margin: 0; padding: 14px; color: var(--text); background: var(--bg); }
+    h1 { font-size: 15px; margin: 0 0 10px; background: linear-gradient(90deg, currentColor, #1450e6, currentColor, #d72323);
+         -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 9px 0; }
+    select { max-width: 160px; font: inherit; }
+    input[type=range] { width: 130px; accent-color: var(--accent); }
+    input[type=checkbox] { accent-color: var(--accent); width: 16px; height: 16px; }
+    .big { font-weight: 600; font-size: 14px; }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 10px 0; }
+    button { width: 100%; padding: 7px; font: inherit; border-radius: 7px; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; }
+    button:hover { border-color: var(--accent); }
+    .muted { color: var(--muted); font-size: 12px; }
+    #unavailable { display: none; color: #c44; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Readwell</h1>
+  <div class="row big"><label for="enabled">On for this page</label><input type="checkbox" id="enabled"></div>
+  <p id="unavailable">Firefox doesn't allow extensions on this page.</p>
+  <div class="row"><label for="site">This site</label>
+    <select id="site">
+      <option value="">Follow default</option>
+      <option value="always">Always on</option>
+      <option value="never">Never</option>
+    </select>
+  </div>
+  <div class="row"><label for="autoEnable">On for every page</label><input type="checkbox" id="autoEnable"></div>
+  <hr>
+  <div class="row"><label for="preset">Preset</label><select id="preset"></select></div>
+  <div class="row"><label for="theme">Theme</label><select id="theme"></select></div>
+  <div class="row"><label for="intensity">Intensity</label><input type="range" id="intensity" min="10" max="100" step="5"></div>
+  <hr>
+  <button id="options">All settings &amp; live preview…</button>
+  <p class="muted">Shortcut: Alt+Shift+B</p>
+  <script src="config.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
