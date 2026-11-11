@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Readwell",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Color-gradient line guiding plus research-based reading aids: spacing, fonts, reading ruler, bionic bolding, tints.",
   "icons": { "48": "icons/icon.svg", "96": "icons/icon.svg" },
   "permissions": ["storage"],
